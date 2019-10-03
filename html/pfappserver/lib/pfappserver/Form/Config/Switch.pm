@@ -669,7 +669,7 @@ sub options_type {
     my @modules;
     foreach my $vendor (sort keys %pf::SwitchFactory::VENDORS) {
         my $vendors = $pf::SwitchFactory::VENDORS{$vendor};
-        my @switches = map {{ value => $_, label => $vendors->{$_} }} sort keys %$vendors;
+        my @switches = map {{ value => $_, %{$vendors->{$_}}} } sort keys %$vendors;
         push @modules, { group => $vendor,
                          options => \@switches,
                          value => '' };

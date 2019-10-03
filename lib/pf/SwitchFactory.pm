@@ -228,8 +228,10 @@ sub buildVendorsList {
         my $vendor = shift @p;
         #Include only concrete classes indictated by the existence of the description method
         if ($module->can('description')) {
-            $VENDORS{$vendor} = {} unless ($VENDORS{$vendor});
-            $VENDORS{$vendor}->{$switch} = $module->description;
+            $VENDORS{$vendor}{$switch} = {
+                label => $module->description,
+                supports => [$module->supports]
+            };
         }
     }
 }
