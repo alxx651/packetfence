@@ -103,9 +103,10 @@ CREATE TABLE `locationlog_history` (
   `session_id` VARCHAR(255) DEFAULT NULL,
   `ifDesc` VARCHAR(255) DEFAULT NULL,
   `voip` enum('no','yes') NOT NULL DEFAULT 'no',
-  KEY `locationlog_view_mac` (`mac`, `end_time`),
+  KEY `locationlog_view_mac` (`tenant_id`, `mac`, `end_time`),
   KEY `locationlog_end_time` ( `end_time`),
-  KEY `locationlog_view_switchport` (`switch`,`port`,`end_time`,`vlan`)
+  KEY `locationlog_view_switchport` (`switch`,`port`,`end_time`,`vlan`),
+  KEY `locationlog_ssid` (`ssid`)
 ) ENGINE=InnoDB;
 
 INSERT INTO locationlog_history (
@@ -155,6 +156,8 @@ DELETE FROM locationlog
 ALTER TABLE `locationlog`
     DROP PRIMARY KEY,
     DROP COLUMN id,
+    DROP COLUMN end_time,
+    DROP INDEX locationlog_view_mac,
     ADD  PRIMARY KEY (`tenant_id`, `mac`),
     ADD CONSTRAINT `locationlog_tenant_id` FOREIGN KEY(`tenant_id`) REFERENCES `tenant` (`id`);
 
